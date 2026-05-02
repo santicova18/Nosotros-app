@@ -5,14 +5,14 @@ export class BotonView {
     }
     
     async mostrar() {
-        this.container.innerHTML = 
+        this.container.innerHTML = `
             <div class='container'>
                 <h1>Te extraño ❤️</h1>
                 <p id='mensaje-boton' class='mensaje-dinamico'>Presiona el botón...</p>
                 <button id='btnExtrañar' class='btn-extrañar'>💔</button>
             </div>
-        ;
-        this.inicializarBotón();
+        `;
+        this.inicializarBoton();
     }
     
     ocultar() {
@@ -20,7 +20,7 @@ export class BotonView {
         return Promise.resolve();
     }
     
-    inicializarBotón() {
+    inicializarBoton() {
         const mensajes = [
             'Yo también te extraño mucho 💔',
             'Cada día sin ti es difícil 😢',
@@ -34,14 +34,17 @@ export class BotonView {
         const texto = this.container.querySelector('#mensaje-boton');
         
         if (btn && texto) {
-            btn.addEventListener('click', () => {
+            texto.style.transition = 'transform 0.2s';
+
+            btn.onclick = () => {
                 let random = Math.floor(Math.random() * mensajes.length);
                 texto.textContent = mensajes[random];
                 texto.style.transform = 'scale(1.2)';
+                
                 setTimeout(() => {
                     texto.style.transform = 'scale(1)';
                 }, 200);
-            });
+            };
         }
     }
 }

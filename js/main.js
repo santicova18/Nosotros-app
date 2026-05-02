@@ -1,5 +1,5 @@
 ﻿// js/main.js
-import '../firebase.js'; // Inicializar Firebase
+import './firebase.js'; // Inicializar Firebase
 import { TimelineView } from './views/timeline.js';
 import { HomeView } from './views/home.js';
 import { SubirView } from './views/subir.js';
@@ -21,12 +21,21 @@ class App {
     }
     
     inicializarNavegacion() {
-        document.getElementById('nav-home').onclick = () => this.cambiarVista('home');
-        document.getElementById('nav-timeline').onclick = () => this.cambiarVista('timeline');
-        document.getElementById('nav-subir').onclick = () => this.cambiarVista('subir');
-        document.getElementById('nav-boton').onclick = () => this.cambiarVista('boton');
-        
-        // Navegación con hash
+        const navHome = document.getElementById('nav-home');
+        const navTimeline = document.getElementById('nav-timeline');
+        const navSubir = document.getElementById('nav-subir');
+        const navBoton = document.getElementById('nav-boton');
+
+        if (!navHome || !navTimeline || !navSubir || !navBoton) {
+            console.warn('Faltan elementos de navegación');
+            return;
+        }
+
+        navHome.onclick = () => this.cambiarVista('home');
+        navTimeline.onclick = () => this.cambiarVista('timeline');
+        navSubir.onclick = () => this.cambiarVista('subir');
+        navBoton.onclick = () => this.cambiarVista('boton');
+            // Navegación con hash
         window.addEventListener('hashchange', () => {
             const vista = location.hash.substring(1) || 'home';
             this.cambiarVista(vista);
@@ -39,12 +48,18 @@ class App {
     }
     
     async cambiarVista(nombreVista) {
+       const vistasValidas = ['home', 'timeline', 'subir', 'boton'];
+        if (!vistasValidas.includes(nombreVista)){
+            console.warn(`Vista desconocida: ${nombreVista}. Redirigiendo a home.`);
+            nombreVista = 'home';
+        }
+        if (this.vistaActual === nombreVista) return;
         // Ocultar vista actual
         if (this.vistaActual && this.vistas[this.vistaActual] && this.vistas[this.vistaActual].ocultar) {
             await this.vistas[this.vistaActual].ocultar();
         }
         
-        // Crear vista si no existe
+ 
         if (!this.vistas[nombreVista]) {
             switch(nombreVista) {
                 case 'timeline':
@@ -67,6 +82,9 @@ class App {
         // Mostrar nueva vista
         await this.vistas[nombreVista].mostrar();
         this.vistaActual = nombreVista;
+        if (location.hash !== `#${nombreVista}`) {
+            location.hash = nombreVista;
+        }
         location.hash = nombreVista;
     }
 }

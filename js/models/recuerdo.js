@@ -1,32 +1,35 @@
 ﻿// js/models/recuerdo.js
 export class Recuerdo {
-    constructor({ id, texto, imagenUrl, fecha }) {
+    constructor({ id, titulo, descripcion, imagenUrl, fecha }) {
         this.id = id || null;
-        this.texto = texto || '';
+        this.titulo = titulo || '';
+        this.descripcion = descripcion || '';
         this.imagenUrl = imagenUrl || '';
         this.fecha = fecha || new Date().toISOString().split('T')[0];
     }
     
-    // Métodos de validación
+    // Validación
     esValido() {
-        return this.texto.trim() !== '' || this.imagenUrl !== '';
+        return this.titulo.trim() !== '' || this.descripcion.trim() !== '' || this.imagenUrl !== '';
     }
     
-    // Convertir a objeto para Firebase
+    // Convertir a Firebase
     toFirebaseObject() {
         return {
-            texto: this.texto,
+            titulo: this.titulo,
+            descripcion: this.descripcion,
             imagenUrl: this.imagenUrl,
             fecha: this.fecha
         };
     }
     
-    // Crear instancia desde objeto de Firebase
+    // Crear desde Firebase
     static fromFirebase(doc) {
         const data = doc.data();
         return new Recuerdo({
             id: doc.id,
-            texto: data.texto,
+            titulo: data.titulo,
+            descripcion: data.descripcion,
             imagenUrl: data.imagenUrl,
             fecha: data.fecha
         });
