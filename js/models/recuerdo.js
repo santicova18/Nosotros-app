@@ -1,5 +1,5 @@
 ﻿// js/models/recuerdo.js
-export class Recuerdo {
+ class Recuerdo {
     constructor({ id, titulo, descripcion, imagenUrl, fecha }) {
         this.id = id || null;
         this.titulo = titulo || '';
@@ -35,3 +35,5 @@ export class Recuerdo {
         });
     }
 }
+
+export default Recuerdo;
