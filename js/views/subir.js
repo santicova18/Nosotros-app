@@ -1,30 +1,43 @@
-﻿import Recuerdo from "../models/recuerdo.js";
-import { guardarRecuerdo } from "../services/recuerdosService.js";
+﻿// js/views/subir.js
+import { guardarRecuerdo } from "../services/recuerdosServices.js";
 
-export function renderSubir(container, app) {
+export async function renderSubir(container, app) {
   container.innerHTML = `
     <h2>Subir recuerdo</h2>
-    <input id="titulo" placeholder="Título">
-    <textarea id="descripcion"></textarea>
-    <input id="imagenUrl" placeholder="URL de imagen">
+    <input id="titulo" placeholder="Título"><br><br>
+    <textarea id="descripcion" placeholder="Pon una descripcion..."></textarea><br><br>
+    <input type="imagenURL"  placeholder="Añade tu recuerdito 💘" ><br><br>
+
+    <img id="preview" src="" style="display:none; max-width:200px; border-radius:10px;"><br><br>
     <button id="guardar">Guardar</button>
   `;
 
-  document.getElementById("guardar").onclick = async () => {
-const recuerdo = new Recuerdo({
-  titulo: document.getElementById("titulo").value,
-  descripcion: document.getElementById("descripcion").value,
-  imagenUrl: document.getElementById("imagenUrl").value,
-  fecha: new Date().toISOString()
+  const inputUrl = container.querySelector('#imagenUrl');
+const preview = container.querySelector('#preview');
+
+inputUrl.addEventListener('input', () => {
+  const url = inputUrl.value;
+
+  if (url) {
+    preview.src = url;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
 });
+  const btn = container.querySelector('#guardar');
 
-if (!recuerdo.esValido()) {
-  alert("Agrega al menos texto o imagen");
-  return;
-}
+  btn.onclick = async () => {
+    const recuerdo = {
+      titulo: container.querySelector('#titulo').value,
+      descripcion: container.querySelector('#descripcion').value,
+      imagenUrl: container.querySelector('#imagenUrl').value,
+      fecha: new Date().toISOString()
+    };
 
-await guardarRecuerdo(recuerdo.toFirebaseObject());
+    await guardarRecuerdo(recuerdo);
 
-    app.cambiarVista("timeline");
+    // 🔥 vuelve al timeline
+    app.cambiarVista('timeline');
   };
 }
