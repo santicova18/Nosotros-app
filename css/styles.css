@@ -15,7 +15,7 @@ body {
   margin: 0;
   font-family: 'Quicksand', sans-serif;
   color: var(--azul-texto);
-  background: url("assets/img/fondo.png") no-repeat center center fixed;
+  background: url("../assets/img/fondo.png") no-repeat center center fixed;
   background-size: cover;
 }
 
