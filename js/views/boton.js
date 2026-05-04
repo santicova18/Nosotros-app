@@ -2,7 +2,7 @@
 export function renderBoton(container) {
   container.innerHTML = `
     <div class="container">
-      <h1>Te extraño ❤️</h1>
+      <h1>Te extraño mucho ❤️</h1>
       <p id="mensaje-boton">Presiona el botón...</p>
       <button id="btnExtrañar">💔</button>
     </div>
