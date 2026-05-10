@@ -1,6 +1,8 @@
 import { db } from "../firebase.js";
-import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+ import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
+
+console.log("DB:", db);
 
 export async function guardarRecuerdo(recuerdo) {
   const coleccion = collection(db, "recuerdos");

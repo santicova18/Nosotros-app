@@ -21,5 +21,5 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/12.12.1/firebas
   const db = getFirestore(app);
   
 
-  export{ app , db ,  };
+  export{db};
 
