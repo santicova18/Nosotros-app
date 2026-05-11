@@ -1,0 +1,176 @@
+/* ============================================================
+   SUBIR — Formulario para añadir recuerdos
+   Nuestra App · Rework Premium 2026
+   ============================================================ */
+
+/* --- Contenedor del formulario --- */
+.subir-view {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* --- Header de la vista --- */
+.subir-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  animation: slideDown var(--duration-slow) var(--ease-smooth) both;
+}
+
+.subir-header h2 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subir-header .subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* --- Card del formulario --- */
+.subir-card {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-xl);
+  animation: slideUp var(--duration-slow) var(--ease-smooth) both;
+  animation-delay: 80ms;
+}
+
+/* --- Grupo de campo --- */
+.field-group {
+  margin-bottom: var(--space-md);
+}
+
+.field-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+  letter-spacing: 0.01em;
+}
+
+.field-hint {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+/* --- Preview de imagen --- */
+.img-preview-wrapper {
+  margin: var(--space-md) 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(220, 238, 255, 0.5) 0%, rgba(236, 246, 255, 0.5) 100%);
+  border: 1.5px dashed var(--border-soft);
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--duration-base) var(--ease-smooth);
+}
+
+.img-preview-wrapper.has-image {
+  border-style: solid;
+  border-color: var(--primary-light);
+  min-height: unset;
+}
+
+.img-preview-placeholder {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--space-lg);
+}
+
+.img-preview-placeholder .placeholder-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-xs);
+  opacity: 0.5;
+}
+
+.img-preview-placeholder p {
+  font-size: var(--text-xs);
+}
+
+#preview {
+  display: none;
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  animation: scaleIn var(--duration-base) var(--ease-spring) both;
+}
+
+/* --- Botón guardar --- */
+.btn-guardar {
+  width: 100%;
+  padding: 14px;
+  font-size: var(--text-base);
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
+  box-shadow: var(--shadow-sm), 0 0 0 0 var(--primary-glow);
+  transition:
+    transform var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    opacity var(--duration-fast) var(--ease-smooth);
+  margin-top: var(--space-sm);
+}
+
+.btn-guardar:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), 0 0 0 6px var(--primary-glow);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+
+.btn-guardar:active {
+  transform: scale(0.98) translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-guardar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- Estado del proceso --- */
+#estado {
+  margin-top: var(--space-md);
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  min-height: 24px;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-smooth);
+}
+
+#estado.visible {
+  opacity: 1;
+}
+
+#estado.cargando {
+  color: var(--primary-dark);
+  background: rgba(122, 168, 216, 0.12);
+}
+
+#estado.exito {
+  color: #2d7a5f;
+  background: rgba(45, 122, 95, 0.10);
+}
+
+#estado.error {
+  color: #c0392b;
+  background: rgba(192, 57, 43, 0.10);
+}

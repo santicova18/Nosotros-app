@@ -1,0 +1,185 @@
+/* ============================================================
+   GLOBAL — Reset, Base & Tipografía
+   Nuestra App · Rework Premium 2026
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+/* --- Reset moderno --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+/* --- Body base --- */
+body {
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  color: var(--text);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100dvh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Textura atmosférica sutil encima del gradiente */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(122, 168, 216, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(174, 207, 239, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- Tipografía --- */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-base);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: var(--text-3xl); font-weight: 700; }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl); }
+h4 { font-size: var(--text-lg); }
+
+p {
+  color: var(--text-soft);
+  line-height: 1.65;
+}
+
+small, .text-muted {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* --- Botones base (iOS pill style) --- */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-family: var(--font-base);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: var(--radius-pill);
+  padding: 11px 24px;
+  background: var(--primary);
+  color: #fff;
+  letter-spacing: 0.01em;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm), 0 0 0 0 transparent;
+}
+
+button:active {
+  transform: scale(0.97) translateY(0);
+  box-shadow: none;
+}
+
+/* Variante ghost */
+button.btn-ghost {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--primary-dark);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-xs);
+}
+
+button.btn-ghost:hover {
+  background: var(--card-bg-hover);
+  border-color: var(--primary-light);
+}
+
+/* --- Inputs base --- */
+input, textarea, select {
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.50);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 13px 18px;
+  width: 100%;
+  outline: none;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    background var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* --- Imágenes --- */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- Separador --- */
+hr {
+  border: none;
+  border-top: 1px solid var(--border-soft);
+  margin: var(--space-lg) 0;
+}
+
+/* --- Scrollbar personalizado --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: var(--radius-pill);
+}

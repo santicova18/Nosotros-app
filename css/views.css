@@ -1,0 +1,308 @@
+/* ============================================================
+   VIEWS — Estilos específicos de Home y Boton
+   Nuestra App · Rework Premium 2026
+   ============================================================ */
+
+/* ============================
+   HOME VIEW
+   ============================ */
+
+.home-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-md) 0 var(--space-2xl);
+  gap: var(--space-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Orb de luz atmosférico — contenido dentro de .home-view */
+.home-orb {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(174, 207, 239, 0.30) 0%,
+    rgba(122, 168, 216, 0.10) 50%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse 6s ease-in-out infinite;
+}
+
+/* Hero — contiene el orb con position relative */
+.home-hero {
+  position: relative;
+  width: 100%;
+  padding-top: var(--space-xl);
+  z-index: 1;
+}
+
+.home-eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: var(--space-sm);
+}
+
+.home-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  min-height: 1.2em;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.home-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: var(--space-sm);
+  font-weight: 400;
+}
+
+/* Botón corazón principal */
+.home-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  position: relative;
+  z-index: 1;
+}
+
+.btn-heart {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(145deg, rgba(255,255,255,0.80) 0%, rgba(218, 238, 255, 0.70) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255,255,255,0.70);
+  box-shadow:
+    0 8px 32px rgba(122, 168, 216, 0.25),
+    0 0 0 0 rgba(122, 168, 216, 0),
+    0 1px 0 rgba(255,255,255,0.9) inset;
+  color: var(--primary-dark);
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    transform var(--duration-base) var(--ease-spring),
+    box-shadow var(--duration-base) var(--ease-smooth);
+  padding: 0;
+}
+
+.btn-heart:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 12px 40px rgba(122, 168, 216, 0.30),
+    0 0 0 8px rgba(122, 168, 216, 0.10),
+    0 1px 0 rgba(255,255,255,0.9) inset;
+  background: linear-gradient(145deg, rgba(255,255,255,0.90) 0%, rgba(218, 238, 255, 0.80) 100%);
+}
+
+.btn-heart:active {
+  transform: scale(0.90);
+  box-shadow: 0 4px 16px rgba(122, 168, 216, 0.18);
+}
+
+.btn-heart__icon {
+  display: block;
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+
+.home-hint {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  font-weight: 400;
+}
+
+/* Tarjeta de fecha */
+.home-date-card {
+  width: 100%;
+  max-width: 320px;
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  position: relative;
+  z-index: 1;
+  animation: slideUp var(--duration-slow) var(--ease-smooth) both;
+  animation-delay: 200ms;
+}
+
+.home-date-card:hover {
+  transform: translateY(-2px);
+}
+
+.home-date-card__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.home-date-card__label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.home-date-card__date {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text);
+  text-transform: capitalize;
+}
+
+.home-date-card__icon {
+  font-size: 1.5rem;
+  color: var(--primary-light);
+}
+
+
+/* ============================
+   BOTON (TE EXTRAÑO) VIEW
+   ============================ */
+
+.boton-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-xl) 0 var(--space-2xl);
+  gap: var(--space-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Orb atmosférico — contenido dentro de .boton-view */
+.boton-orb {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(122, 168, 216, 0.18) 0%,
+    rgba(174, 207, 239, 0.08) 55%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse 5s ease-in-out infinite;
+}
+
+.boton-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  position: relative;
+  z-index: 1;
+}
+
+.boton-eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.boton-title {
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  min-height: 1.3em;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+/* Botón principal "Te extraño" */
+.btn-extranar {
+  position: relative;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(145deg, rgba(255,255,255,0.80) 0%, rgba(218, 238, 255, 0.65) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255,255,255,0.65);
+  box-shadow:
+    0 12px 40px rgba(122, 168, 216, 0.22),
+    0 1px 0 rgba(255,255,255,0.9) inset;
+  color: var(--primary-dark);
+  font-size: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    transform var(--duration-base) var(--ease-spring),
+    box-shadow var(--duration-base) var(--ease-smooth);
+}
+
+.btn-extranar__ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(122, 168, 216, 0.25);
+  pointer-events: none;
+  transition: transform var(--duration-slow) var(--ease-smooth),
+              opacity var(--duration-slow) var(--ease-smooth);
+}
+
+.btn-extranar:hover {
+  transform: scale(1.06);
+  box-shadow:
+    0 16px 50px rgba(122, 168, 216, 0.30),
+    0 0 0 10px rgba(122, 168, 216, 0.08),
+    0 1px 0 rgba(255,255,255,0.9) inset;
+}
+
+.btn-extranar:active {
+  transform: scale(0.88);
+}
+
+.btn-extranar.pulsing {
+  animation: heartbeat 2.2s ease-in-out infinite;
+}
+
+.btn-extranar__icon {
+  display: block;
+  line-height: 1;
+}
+
+.boton-hint {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  position: relative;
+  z-index: 1;
+}

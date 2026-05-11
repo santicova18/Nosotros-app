@@ -1,0 +1,141 @@
+/* ============================================================
+   LAYOUT — Estructura principal & contenedor
+   Nuestra App · Rework Premium 2026
+   ============================================================ */
+
+/* --- Contenedor raíz de vistas --- */
+#app {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md) calc(var(--navbar-height) + var(--space-xl));
+  min-height: 100dvh;
+}
+
+/* --- Header de vista (título + subtítulo) --- */
+.view-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  animation: slideDown var(--duration-slow) var(--ease-smooth) both;
+}
+
+.view-header h1,
+.view-header h2 {
+  margin-bottom: var(--space-xs);
+}
+
+.view-header .subtitle {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --- Card genérica glassmorphism --- */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition:
+    transform var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    background var(--duration-base) var(--ease-smooth);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  background: var(--card-bg-hover);
+}
+
+/* --- Empty state --- */
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  color: var(--text-muted);
+  animation: fadeIn var(--duration-slow) var(--ease-smooth) both;
+}
+
+.empty-state .empty-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* --- Modal overlay --- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(15, 25, 40, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+}
+
+.modal-overlay.visible {
+  display: flex;
+  animation: fadeIn var(--duration-base) var(--ease-smooth) both;
+}
+
+.modal-box {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 520px;
+  max-height: 88dvh;
+  overflow-y: auto;
+  animation: scaleIn var(--duration-base) var(--ease-spring) both;
+}
+
+.modal-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+  #app {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+  }
+}

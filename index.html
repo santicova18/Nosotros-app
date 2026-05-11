@@ -1,23 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Nuestra App ❤️</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nuestra App — Un espacio íntimo y tranquilo para guardar nuestros momentos juntos.">
+  <title>Nosotros ✦</title>
+
+  <!-- CSS Modular -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/timeline.css">
+  <link rel="stylesheet" href="css/subir.css">
+  <link rel="stylesheet" href="css/views.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Las vistas se inyectarán aquí dinámicamente -->
+
+  <!-- Contenedor principal de vistas SPA -->
+  <div id="app"></div>
+
+  <!-- Modal para recuerdos expandidos -->
+  <div id="modal-recuerdo" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="modal-box recuerdo-modal">
+      <button class="modal-close" id="modal-cerrar" aria-label="Cerrar">✕</button>
+      <img id="modal-img" class="recuerdo-modal__img" src="" alt="" style="display:none;">
+      <div class="recuerdo-modal__content">
+        <p class="recuerdo-modal__fecha" id="modal-fecha"></p>
+        <h2 class="recuerdo-modal__title" id="modal-titulo"></h2>
+        <p class="recuerdo-modal__desc" id="modal-desc"></p>
+      </div>
     </div>
-    
-    <!-- Navegación -->
-    <nav class="menu">
-        <button id="nav-home">Inicio</button>
-        <button id="nav-timeline">Recuerdos</button>
-        <button id="nav-subir">Subir recuerdos</button>
-        <button id="nav-boton">Te extraño</button>
-    </nav>
-    
-    <script src="js/main.js" type="module"></script>
+  </div>
+
+  <!-- Navbar flotante inferior tipo iOS -->
+  <nav class="menu" role="navigation" aria-label="Navegación principal">
+    <button id="nav-home" class="nav-item active" aria-label="Inicio">
+      <span class="nav-icon">✦</span>
+      <span class="nav-label">Inicio</span>
+    </button>
+    <button id="nav-timeline" class="nav-item" aria-label="Recuerdos">
+      <span class="nav-icon">◎</span>
+      <span class="nav-label">Recuerdos</span>
+    </button>
+    <button id="nav-subir" class="nav-item" aria-label="Subir recuerdos">
+      <span class="nav-icon">＋</span>
+      <span class="nav-label">Añadir</span>
+    </button>
+    <button id="nav-boton" class="nav-item" aria-label="Te extraño">
+      <span class="nav-icon">◡</span>
+      <span class="nav-label">Sentir</span>
+    </button>
+  </nav>
+
+  <script src="js/main.js" type="module"></script>
 </body>
 </html>
