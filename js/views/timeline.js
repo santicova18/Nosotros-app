@@ -1,5 +1,5 @@
 // js/views/timeline.js
-import { obtenerRecuerdos } from "../services/recuerdosServices.js";
+import { obtenerRecuerdos, eliminarRecuerdo } from "../services/recuerdosServices.js";
 
 export async function renderTimeline(container) {
 
@@ -39,11 +39,10 @@ export async function renderTimeline(container) {
   }
 
   // Counter
-  container.insertAdjacentHTML('beforeend', `
-    <div style="text-align:center;margin-bottom:var(--space-md);">
-      <span class="timeline-counter">✦ ${recuerdos.length} recuerdo${recuerdos.length !== 1 ? 's' : ''}</span>
-    </div>
-  `);
+  const counter = document.createElement('div');
+  counter.className = 'timeline-counter-wrapper';
+  counter.innerHTML = `<span class="timeline-counter">✦ ${recuerdos.length} recuerdo${recuerdos.length !== 1 ? 's' : ''}</span>`;
+  container.appendChild(counter);
 
   // Grid con animación escalonada
   const grid = document.createElement('div');
@@ -54,10 +53,16 @@ export async function renderTimeline(container) {
     card.className = 'recuerdo-card';
     card.setAttribute('role', 'article');
     card.setAttribute('tabindex', '0');
+    card.dataset.id = r.id;
 
-    const imagenHtml = r.imagenUrl
+    // Optimizar URL de Cloudinary: añadir transformaciones f_auto,q_auto
+    const imgSrc = r.imagenUrl
+      ? r.imagenUrl.replace('/upload/', '/upload/f_auto,q_auto,w_800/')
+      : null;
+
+    const imagenHtml = imgSrc
       ? `<div class="recuerdo-card__img-wrapper">
-           <img class="recuerdo-card__img" src="${r.imagenUrl}" alt="${r.titulo || 'Recuerdo'}" loading="lazy">
+           <img class="recuerdo-card__img" src="${imgSrc}" alt="${r.titulo || 'Recuerdo'}" loading="lazy">
          </div>`
       : `<div class="recuerdo-card__img-wrapper">
            <div class="recuerdo-card__img-placeholder">◎</div>
@@ -71,12 +76,87 @@ export async function renderTimeline(container) {
       </div>
       <div class="recuerdo-card__footer">
         <span class="recuerdo-card__fecha">${formatearFecha(r.fecha)}</span>
-        <span class="recuerdo-card__icon">✦</span>
+        <div class="recuerdo-card__actions">
+          <button class="btn-eliminar" aria-label="Eliminar recuerdo" title="Eliminar">✕</button>
+        </div>
+      </div>
+      <div class="recuerdo-card__confirm" hidden>
+        <p>¿Eliminar este recuerdo?</p>
+        <div class="confirm-btns">
+          <button class="btn-confirmar-si">Sí, eliminar</button>
+          <button class="btn-confirmar-no">Cancelar</button>
+        </div>
       </div>
     `;
 
-    // Abrir modal al hacer clic
-    card.onclick = () => abrirModal(r);
+    // --- Lógica eliminar ---
+    const btnEliminar  = card.querySelector('.btn-eliminar');
+    const confirmPanel = card.querySelector('.recuerdo-card__confirm');
+    const btnSi        = card.querySelector('.btn-confirmar-si');
+    const btnNo        = card.querySelector('.btn-confirmar-no');
+
+    // Mostrar panel de confirmación inline (sin bloquear la UI)
+    btnEliminar.addEventListener('click', (e) => {
+      e.stopPropagation();
+      confirmPanel.hidden = false;
+      card.classList.add('confirming');
+    });
+
+    // Cancelar
+    btnNo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      confirmPanel.hidden = true;
+      card.classList.remove('confirming');
+    });
+
+    // Confirmar eliminación
+    btnSi.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      btnSi.disabled = true;
+      btnSi.textContent = 'Eliminando...';
+
+      try {
+        await eliminarRecuerdo(r.id);
+
+        // Animación de salida
+        card.classList.add('removing');
+        
+        setTimeout(() => {
+          card.remove();
+          // Actualizar contador
+          const restantes = grid.querySelectorAll('.recuerdo-card').length;
+          const counterSpan = counter.querySelector('.timeline-counter');
+          if (counterSpan) {
+            counterSpan.textContent = `✦ ${restantes} recuerdo${restantes !== 1 ? 's' : ''}`;
+          }
+
+          // Si no quedan recuerdos, mostrar estado vacío
+          if (restantes === 0) {
+            counter.remove();
+            grid.remove();
+            container.insertAdjacentHTML('beforeend', `
+              <div class="timeline-empty">
+                <span class="empty-icon">◎</span>
+                <h3>Aún no hay recuerdos</h3>
+                <p>Añade vuestro primer momento especial</p>
+              </div>
+            `);
+          }
+        }, 350);
+
+      } catch (err) {
+        console.error("Error al eliminar recuerdo:", err);
+        btnSi.disabled = false;
+        btnSi.textContent = 'Sí, eliminar';
+      }
+    });
+
+    // Abrir modal al hacer clic en la tarjeta (pero no en los botones)
+    card.addEventListener('click', (e) => {
+      if (!e.target.closest('.btn-eliminar, .recuerdo-card__confirm')) {
+        abrirModal(r);
+      }
+    });
     card.onkeydown = (e) => { if (e.key === 'Enter') abrirModal(r); };
 
     grid.appendChild(card);
@@ -86,18 +166,19 @@ export async function renderTimeline(container) {
 }
 
 function abrirModal(r) {
-  const modal   = document.getElementById('modal-recuerdo');
-  const imgEl   = document.getElementById('modal-img');
+  const modal    = document.getElementById('modal-recuerdo');
+  const imgEl    = document.getElementById('modal-img');
   const tituloEl = document.getElementById('modal-titulo');
-  const descEl  = document.getElementById('modal-desc');
-  const fechaEl = document.getElementById('modal-fecha');
+  const descEl   = document.getElementById('modal-desc');
+  const fechaEl  = document.getElementById('modal-fecha');
 
   tituloEl.textContent = r.titulo || 'Sin título';
   descEl.textContent   = r.descripcion || '';
   fechaEl.textContent  = formatearFecha(r.fecha);
 
   if (r.imagenUrl) {
-    imgEl.src = r.imagenUrl;
+    // En el modal mostramos la imagen en mayor resolución
+    imgEl.src = r.imagenUrl.replace('/upload/', '/upload/f_auto,q_auto,w_1200/');
     imgEl.alt = r.titulo || 'Recuerdo';
     imgEl.style.display = 'block';
   } else {
@@ -113,3 +194,4 @@ function formatearFecha(fecha) {
     day: 'numeric', month: 'long', year: 'numeric'
   });
 }
+
