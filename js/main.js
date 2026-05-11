@@ -20,7 +20,7 @@ class App {
 
         const bindNav = (id, vista) => {
             document.getElementById(id).onclick = () => {
-                this.cambiarVista(vista);
+                this.cambiarVista(vista, true); // Forzar re-render al tocar el botón
                 // Actualizar ítem activo
                 navItems.forEach(btn => btn.classList.remove('active'));
                 document.getElementById(id).classList.add('active');
@@ -68,11 +68,11 @@ class App {
         await this.cambiarVista(vistaInicial);
     }
 
-    async cambiarVista(nombreVista) {
+    async cambiarVista(nombreVista, forceRender = false) {
         const vistasValidas = ['home', 'timeline', 'subir', 'boton'];
 
         if (!vistasValidas.includes(nombreVista)) nombreVista = 'home';
-        if (this.vistaActual === nombreVista) return;
+        if (this.vistaActual === nombreVista && !forceRender) return;
 
         // Transición de salida
         this.contenedor.style.opacity = '0';
