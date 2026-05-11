@@ -1,5 +1,6 @@
 // js/views/subir.js
 import { guardarRecuerdo } from "../services/recuerdosServices.js";
+import { subirImagen } from "../services/cloudinary.js";
 
 export async function renderSubir(container, app) {
   container.innerHTML = `
@@ -35,14 +36,13 @@ export async function renderSubir(container, app) {
         </div>
 
         <div class="field-group">
-          <label class="field-label" for="imagenUrl">Imagen (URL)</label>
+          <label class="field-label" for="imagen">Imagen</label>
           <input
-            id="imagenUrl"
-            type="url"
-            placeholder="https://..."
-            autocomplete="off"
+            id="imagen"
+            type="file"
+            accept="image/*"
           >
-          <p class="field-hint">Pega el link de una imagen para añadir una foto al recuerdo</p>
+          <p class="field-hint">Sube la foto que quieras añadir</p>
         </div>
 
         <!-- Preview de imagen -->
@@ -66,7 +66,7 @@ export async function renderSubir(container, app) {
     </div>
   `;
 
-  const inputUrl       = container.querySelector('#imagenUrl');
+  const inputImagen    = container.querySelector('#imagen');
   const preview        = container.querySelector('#preview');
   const previewWrapper = container.querySelector('#preview-wrapper');
   const previewPlaceholder = container.querySelector('#preview-placeholder');
@@ -74,9 +74,10 @@ export async function renderSubir(container, app) {
   const estado         = container.querySelector('#estado');
 
   // Preview de imagen en tiempo real
-  inputUrl.addEventListener('input', () => {
-    const url = inputUrl.value.trim();
-    if (url) {
+  inputImagen.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
       preview.src = url;
       preview.style.display = 'block';
       previewPlaceholder.style.display = 'none';
@@ -105,7 +106,7 @@ export async function renderSubir(container, app) {
   btnGuardar.onclick = async () => {
     const titulo      = container.querySelector('#titulo').value.trim();
     const descripcion = container.querySelector('#descripcion').value.trim();
-    const imagenUrl   = inputUrl.value.trim();
+    const file        = inputImagen.files[0];
 
     if (!titulo) {
       mostrarEstado('Por favor escribe un título para el recuerdo.', 'error');
@@ -113,10 +114,21 @@ export async function renderSubir(container, app) {
       return;
     }
 
+    if (!file) {
+      mostrarEstado('Por favor selecciona una imagen.', 'error');
+      return;
+    }
+
     btnGuardar.disabled = true;
-    mostrarEstado('Guardando tu recuerdo...', 'cargando');
+    mostrarEstado('Subiendo imagen...', 'cargando');
 
     try {
+      // 1. Subir la imagen a Cloudinary
+      const imagenUrl = await subirImagen(file);
+
+      mostrarEstado('Guardando tu recuerdo...', 'cargando');
+
+      // 2. Guardar el recuerdo con la URL real
       await guardarRecuerdo({
         titulo,
         descripcion,
@@ -128,7 +140,7 @@ export async function renderSubir(container, app) {
 
       // Regresar al timeline después de un momento
       setTimeout(() => {
-        app.cambiarVista('timeline');
+        app.cambiarVista('timeline', true);
         app._actualizarNavActivo('timeline');
         const navTimeline = document.getElementById('nav-timeline');
         if (navTimeline) {
@@ -138,6 +150,7 @@ export async function renderSubir(container, app) {
       }, 1200);
 
     } catch (err) {
+      console.error("Error guardando el recuerdo:", err);
       mostrarEstado('Hubo un error al guardar. Inténtalo de nuevo.', 'error');
       btnGuardar.disabled = false;
     }
